@@ -11,10 +11,9 @@ from shutil import move
 #config
 BCAST_IP = "239.255.255.250"
 UPNP_PORT = 1900
-GPHOTO_CMD_ARGS = [os.path.expanduser("~/gphoto2-2.5.8/gphoto2/gphoto2"),"-P","--skip-existing"]
+GPHOTO_CMD = ["env", "LD_LIBRARY_PATH=/usr/local/lib", os.path.expanduser("~/gphoto2-2.5.8/gphoto2/gphoto2"),"-P","--skip-existing"]
 GPHOTO_SETTINGS = "~/.gphoto/settings"
 PHOTO_DIR = "/var/lib/Sony"
-CUSTOM_LD_LIBRARY_PATH = "/usr/local/lib"
 PTP_GUID = "00:00:00:00:00:00:00:00:ff:ff:08:00:27:f5:16:4f"
 DEBUG = False
 
@@ -48,7 +47,6 @@ L.addHandler(consoleHandler)
 L.info("Server starting")
 
 os.chdir(PHOTO_DIR)
-os.environ["LD_LIBRARY_PATH"] = CUSTOM_LD_LIBRARY_PATH
 
 #NOTES...
 #The following USN have been seen coming from the Sony camera when turning
@@ -135,7 +133,7 @@ class Responder(Thread):
               if "Sony Corporation" in r.content:
                 L.debug("Camera Found...starting gphoto")
                 ValidateUpdateSettings(GPHOTO_SETTINGS, addr[0], PTP_GUID)
-                PROC = subprocess.Popen(GPHOTO_CMD_ARGS)
+                PROC = subprocess.Popen(GPHOTO_CMD)
           L.debug("----------------------")
           L.debug("  ")
 #        else:
