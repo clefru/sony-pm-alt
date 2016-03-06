@@ -100,7 +100,7 @@ class Responder(Thread):
     global GPHOTO_SETTINGS, PTP_GUID
 
     #dummy process to define a PROC to use poll (check if still running)
-    PROC = subprocess.Popen("/bin/echo")
+    PROC = subprocess.Popen("echo")
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind(('', UPNP_PORT))
